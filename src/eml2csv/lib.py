@@ -1,11 +1,14 @@
+# SPDX-FileCopyrightText: 2025-present Chris Mostert <15890652+chrismostert@users.noreply.github.com>
+#
+# SPDX-License-Identifier: EUPL-1.2
 import re
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Optional
 from xml.etree.ElementTree import Element as XmlElement
 
-from util import NAMESPACE as ns
-from util import (
+from eml2csv.util import NAMESPACE as ns
+from eml2csv.util import (
     _get_attrib,
     _get_mandatory_attrib,
     _get_mandatory_text,

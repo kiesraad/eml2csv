@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "eml2csv"
+dynamic = ["version"]
+description = 'Converts EML_NL files to csv files (osv4-3)'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "EUPL-1.2"
+keywords = []
+authors = [
+  { name = "Chris Mostert", email = "15890652+chrismostert@users.noreply.github.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "defusedxml~=0.7.1"
+]
+
+[project.urls]
+Documentation = "https://github.com/kiesraad/eml2csv#readme"
+Issues = "https://github.com/kiesraad/eml2csv/issues"
+Source = "https://github.com/kiesraad/eml2csv"
+
+[tool.hatch.version]
+path = "src/eml2csv/__about__.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest",
+]
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types]
+dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/eml2csv tests}"
+
+[tool.coverage.run]
+source_pkgs = ["eml2csv", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/eml2csv/__about__.py",
+]
+
+[tool.coverage.paths]
+eml2csv = ["src/eml2csv", "*/eml2csv/src/eml2csv"]
+tests = ["tests", "*/eml2csv/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]

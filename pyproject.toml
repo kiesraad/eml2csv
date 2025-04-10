@@ -25,7 +25,8 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "defusedxml~=0.7.1"
+  "defusedxml~=0.7.1",
+  "typer~=0.15.2"
 ]
 
 [project.urls]
@@ -81,3 +82,6 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[project.scripts]
+eml2csv = "eml2csv.main:start"

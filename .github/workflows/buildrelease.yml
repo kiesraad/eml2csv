@@ -1,0 +1,28 @@
+name: Build python package and add to release
+
+on:
+    release:
+      types: [published]
+permissions:
+    contents: write
+jobs:
+    build:
+        name: 'Build package'
+        runs-on: ubuntu-latest
+        steps:
+            - name: 'Checkout code'
+              uses: actions/checkout@v4
+            - name: 'Setup python'
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.8'
+            - name: 'Build'
+              run: |
+                pip install hatch
+                hatch build
+                gh release upload ${{github.event.release.tag_name}} dist/*
+              env:
+                GITHUB_TOKEN: ${{ github.TOKEN }}
+              shell:
+                bash
+                

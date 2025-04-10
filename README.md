@@ -1,9 +1,6 @@
 # eml2csv
 Python package for converting an [EML_NL](https://github.com/kiesraad/EML_NL) file to a csv file (osv4-3) format.
 
-[![PyPI - Version](https://img.shields.io/pypi/v/eml2csv.svg)](https://pypi.org/project/eml2csv)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/eml2csv.svg)](https://pypi.org/project/eml2csv)
-
 -----
 
 **Table of Contents**
@@ -19,9 +16,9 @@ Since [Abacus](https://github.com/kiesraad/abacus) will output only the [EML_NL]
 This CSV file is published by municipalities and is openable in standard spreadsheet software for some simple analysis or visualisations.
 
 ## Installation
-To install the package in your local environment:
+To install the package in your local environment, download the [latest built version](https://github.com/kiesraad/eml2csv/releases/latest) (`.whl`)
 ```console
-pip install eml2csv
+pip install eml2csv-{version}-py3-none-any.whl
 ```
 
 ## How to use
@@ -40,6 +37,11 @@ eml2csv(
     candidates_eml_path="Kandidatenlijsten_EP2024.eml.xml",
     output_csv_path="osv4-3_telling_ep2024_juinen.csv",
 )
+```
+
+The package also includes a CLI utility for ease of use, run the following from your terminal for help
+```console
+eml2csv --help
 ```
 
 ## License

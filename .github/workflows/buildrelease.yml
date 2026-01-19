@@ -6,8 +6,8 @@ on:
 permissions:
     contents: write
 jobs:
-    build:
-        name: 'Build package'
+    build-unix:
+        name: 'Build package and unix binary'
         runs-on: ubuntu-latest
         steps:
             - name: 'Checkout code'
@@ -16,13 +16,82 @@ jobs:
               uses: actions/setup-python@v5
               with:
                 python-version: '3.8'
+            - name: 'Setup Rust'
+              uses: actions-rust-lang/setup-rust-toolchain@v1
+            - name: 'Clone pyapp'
+              uses: 'GuillaumeFalourd/clone-github-repo-action@v2.3'
+              with:
+                owner: 'ofek'
+                repository: 'pyapp'
+                branch: 'master'
             - name: 'Build'
               run: |
                 pip install hatch
                 hatch build
+                wget https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64_v3-unknown-linux-gnu-install_only.tar.gz -O my_cpython.tar.gz
+                tar -xzf my_cpython.tar.gz
+                ./python/bin/pip install .
+                tar -czf my_cpython.tar.gz python
+                cd pyapp
+                export PYAPP_PROJECT_PATH="$(find ../dist/*.whl)"
+                export PYAPP_PROJECT_NAME="eml2csv"
+                export PYAPP_EXEC_SPEC="eml2csv.main:start"
+                export PYAPP_SKIP_INSTALL="1"
+                export PYAPP_DISTRIBUTION_EMBED="1"
+                export PYAPP_DISTRIBUTION_PATH="../my_cpython.tar.gz"
+                export PYAPP_DISTRIBUTION_PYTHON_PATH="python/bin/python3"
+                export PYAPP_FULL_ISOLATION="1"
+                cargo build --release
+                mv target/release/pyapp ../eml2csv-${{github.event.release.tag_name}}
+                cd ..
                 gh release upload ${{github.event.release.tag_name}} dist/*
+                gh release upload ${{github.event.release.tag_name}} eml2csv-${{github.event.release.tag_name}}
               env:
                 GITHUB_TOKEN: ${{ github.TOKEN }}
               shell:
                 bash
+
+    build-windows:
+        name: 'Build windows binary'
+        runs-on: windows-latest
+        steps:
+            - name: 'Checkout code'
+              uses: actions/checkout@v4
+            - name: 'Setup python'
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.8'
+            - name: 'Setup Rust'
+              uses: actions-rust-lang/setup-rust-toolchain@v1
+            - name: 'Clone pyapp'
+              uses: 'GuillaumeFalourd/clone-github-repo-action@v2.3'
+              with:
+                owner: 'ofek'
+                repository: 'pyapp'
+                branch: 'master'
+            - name: 'Build'
+              run: |
+                pip install hatch
+                hatch build
+                Invoke-WebRequest "https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64-pc-windows-msvc-install_only.tar.gz" -OutFile "my_cpython.tar.gz"
+                tar -xzf my_cpython.tar.gz
+                .\python\python.exe -m pip install .
+                tar -czf my_cpython.tar.gz python;
+                cd pyapp
+                $env:PYAPP_PROJECT_PATH = (Get-ChildItem ../dist/*.whl | Select-Object -ExpandProperty FullName)
+                $env:PYAPP_PROJECT_NAME="eml2csv"
+                $env:PYAPP_EXEC_SPEC="eml2csv.main:start"
+                $env:PYAPP_SKIP_INSTALL="1"
+                $env:PYAPP_DISTRIBUTION_EMBED="1"
+                $env:PYAPP_DISTRIBUTION_PATH="..\my_cpython.tar.gz"
+                $env:PYAPP_DISTRIBUTION_PYTHON_PATH="python\python.exe"
+                $env:PYAPP_FULL_ISOLATION="1"
+                cargo build --release
+                Move-Item target/release/pyapp.exe "../eml2csv-${{ github.event.release.tag_name }}.exe"
+                cd ..
+                gh release upload ${{github.event.release.tag_name}} eml2csv-${{github.event.release.tag_name}}.exe
+              env:
+                GITHUB_TOKEN: ${{ github.TOKEN }}
+              shell:
+                pwsh
                 

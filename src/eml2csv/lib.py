@@ -22,6 +22,10 @@ ZIP_REGEX = re.compile(r" \(postcode: (\d{4} \w{2})\)")
 NON_LETTERS_REGEX = re.compile(r"[^0-9a-zA-Z]")
 
 
+class InvalidInputException(Exception):
+    pass
+
+
 def normalise(str_to_normalise: str) -> str:
     return NON_LETTERS_REGEX.sub("", str_to_normalise).lower()
 
@@ -82,16 +86,22 @@ def eml2csv(
     candidates_eml = parse_xml(candidates_eml_path)
 
     # Check if parsing succeeded
-    assert counts_eml is not None
-    assert candidates_eml is not None
+    if counts_eml is None:
+        raise InvalidInputException(f"Could not parse {counts_eml_path}")
+    if candidates_eml is None:
+        raise InvalidInputException(f"Could not parse {candidates_eml_path}")
 
     # Check if the supplied files match and are the expected EML id
     counts_id = _get_attrib(counts_eml, "Id")
     candidates_id = _get_attrib(candidates_eml, "Id")
     if counts_id != "510b" or counts_eml.tag != f"{{{ns['eml']}}}EML":
-        raise Exception(f"{counts_eml_path} was not an EML counts file (510b)!")
+        raise InvalidInputException(
+            f"{counts_eml_path} was not an EML counts file (510b)!"
+        )
     if candidates_id != "230b" or candidates_eml.tag != f"{{{ns['eml']}}}EML":
-        raise Exception(f"{candidates_eml_path} was not an EML candidates file (230b)!")
+        raise InvalidInputException(
+            f"{candidates_eml_path} was not an EML candidates file (230b)!"
+        )
 
     # Check if election id and contest id match
     counts_election_id = _get_attrib(
@@ -105,7 +115,7 @@ def eml2csv(
         or candidates_election_id is None
         or counts_election_id != candidates_election_id
     ):
-        raise Exception(
+        raise InvalidInputException(
             f"Election ids did not match! Counts file was {counts_election_id} while candidates file was {candidates_election_id}"
         )
 
@@ -120,7 +130,7 @@ def eml2csv(
         or candidates_contest_id is None
         or counts_contest_id != candidates_contest_id
     ):
-        raise Exception(
+        raise InvalidInputException(
             f"Contest ids did not match! Counts file was {counts_contest_id} while candidates file was {candidates_contest_id}"
         )
 

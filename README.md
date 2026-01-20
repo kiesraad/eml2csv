@@ -5,21 +5,17 @@ Python package for converting an [EML_NL](https://github.com/kiesraad/EML_NL) fi
 
 **Table of Contents**
 
-- [Background](#background)
 - [Installation](#installation)
 - [How to use](#how-to-use)
 - [License](#license)
-
-## Background
-Since [Abacus](https://github.com/kiesraad/abacus) will output only the [EML_NL](https://github.com/kiesraad/EML_NL) and PV (PDF) files, the code in this repository can be used to generate a (legacy) osv4-3 CSV file. This is because we (Kiesraad) still want to facilitate the creation of these CSV files, while Abacus can focus on outputting files according to the official [EML_NL](https://github.com/kiesraad/EML_NL) standard.
-
-This CSV file is published by municipalities and is openable in standard spreadsheet software for some simple analysis or visualisations.
 
 ## Installation
 To install the package in your local environment, download the [latest built version](https://github.com/kiesraad/eml2csv/releases/latest) (`.whl`)
 ```console
 pip install eml2csv-{version}-py3-none-any.whl
 ```
+
+Alternatively, you can run the script locally with uv `uv run eml2csv --help` or download [one of the packaged binaries](https://github.com/kiesraad/eml2csv/releases/latest) which ship with a python interpreter and required dependencies for use on airgapped systems.
 
 ## How to use
 The package defines a function `eml2csv` which takes three parameters:

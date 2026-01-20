@@ -18,6 +18,14 @@ pip install eml2csv-{version}-py3-none-any.whl
 Alternatively, you can run the script locally with uv `uv run eml2csv --help` or download [one of the packaged binaries](https://github.com/kiesraad/eml2csv/releases/latest) which ship with a python interpreter and required dependencies for use on airgapped systems.
 
 ## How to use
+### Drag and drop
+If you've downloaded the latest binary release you can generate a .csv file by simply dragging the required files (Telling and Kandidatenlijsten) on the executable. **Make sure that you drag both files, and drag from the 'Telling_' file to ensure that it is passed as the first argument**.
+
+https://github.com/user-attachments/assets/86053e07-e164-49a4-bb6e-c28dde467fbc
+
+
+
+### As a library
 The package defines a function `eml2csv` which takes three parameters:
 
 - `counts_eml_path: str`: path to the `EML 510b` file for which you want to create the csv file
@@ -35,6 +43,7 @@ eml2csv(
 )
 ```
 
+### CLI util
 The package also includes a CLI utility for ease of use, run the following from your terminal for help
 ```console
 eml2csv --help

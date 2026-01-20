@@ -17,8 +17,13 @@ from eml2csv.util import (
 )
 
 SB_REGEX = re.compile("^((Stembureau )|(Briefstembureau ))+")
-SB_ID_REGEX = re.compile(r"^\d{4}::SB")
+SB_ID_REGEX = re.compile(r"^\d+::SB")
 ZIP_REGEX = re.compile(r" \(postcode: (\d{4} \w{2})\)")
+NON_LETTERS_REGEX = re.compile(r"[^0-9a-zA-Z]")
+
+
+def normalise(str_to_normalise: str) -> str:
+    return NON_LETTERS_REGEX.sub("", str_to_normalise).lower()
 
 
 @dataclass
@@ -66,7 +71,9 @@ class _CandidateIdentifier:
     name: str
 
 
-def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str):
+def eml2csv(
+    counts_eml_path: str, candidates_eml_path: str, output_csv_path: Optional[str]
+):
     ## Init output
     output = _Output()
 
@@ -74,7 +81,7 @@ def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str
     counts_eml = parse_xml(counts_eml_path)
     candidates_eml = parse_xml(candidates_eml_path)
 
-    # Add better check
+    # Check if parsing succeeded
     assert counts_eml is not None
     assert candidates_eml is not None
 
@@ -114,7 +121,7 @@ def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str
         or counts_contest_id != candidates_contest_id
     ):
         raise Exception(
-            f"Election ids did not match! Counts file was {counts_contest_id} while candidates file was {candidates_contest_id}"
+            f"Contest ids did not match! Counts file was {counts_contest_id} while candidates file was {candidates_contest_id}"
         )
 
     ## HEADER
@@ -134,21 +141,30 @@ def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str
         ]
     )
 
+    authority_name = _get_mandatory_text(
+        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=ns)
+    )
+    authority_type = (
+        "Openbaar lichaam"
+        if authority_name in ["Bonaire", "Saba", "Sint Eustatius"]
+        else "Gemeente"
+    )
     output.push(
         [
             "Gebied",
             "",
-            f"Gemeente {_get_mandatory_text(counts_eml.find('.//eml:AuthorityIdentifier', namespaces=ns))}",
+            f"{authority_type} {authority_name}",
         ]
     )
 
+    authority_id = _get_mandatory_attrib(
+        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=ns), "Id"
+    )
     output.push(
         [
             "Nummer",
             "",
-            _get_mandatory_attrib(
-                counts_eml.find(".//eml:AuthorityIdentifier", namespaces=ns), "Id"
-            ),
+            authority_id,
         ]
     )
     output.flush()
@@ -299,6 +315,15 @@ def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str
                 ["", "", candidate.id, candidate.name]
                 + votes[(affiliation.id, candidate.id)]
             )
+
+    # If no output file name is specified, construct one automatically
+    if output_csv_path is None:
+        election_id = normalise(
+            _get_mandatory_attrib(
+                counts_eml.find(".//eml:ElectionIdentifier", namespaces=ns), "Id"
+            )
+        )
+        output_csv_path = f"osv4-3_telling_{election_id}_{authority_type.lower().replace(' ', '_')}_{normalise(authority_name)}.csv"
 
     output.write_to_file(output_csv_path)
 

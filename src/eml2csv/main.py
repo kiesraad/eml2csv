@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 import typer
 
@@ -18,14 +18,15 @@ def main(
             help="Path to the candidates EML file which corresponds to the specified counts EML (EML-230b)"
         ),
     ],
-    output_csv: Annotated[
-        str,
-        typer.Argument(
-            help="CSV file to write to. NOTE: if the file already exists then it will be overwritten!"
+    output: Annotated[
+        Optional[str],
+        typer.Option(
+            help="""CSV file to write to. NOTE: if the file already exists then it will be overwritten!\n
+            If left blank, filename will be automatically generated and written to the current working directory"""
         ),
-    ] = "out.csv",
+    ] = None,
 ):
-    eml2csv(counts_eml, candidates_eml, output_csv)
+    eml2csv(counts_eml, candidates_eml, output)
 
 
 def start() -> None:

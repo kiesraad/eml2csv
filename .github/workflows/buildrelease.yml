@@ -27,6 +27,7 @@ jobs:
             - name: 'Build'
               run: |
                 pip install hatch
+                hatch test
                 hatch build
                 wget https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64_v3-unknown-linux-gnu-install_only.tar.gz -O my_cpython.tar.gz
                 tar -xzf my_cpython.tar.gz
@@ -72,6 +73,7 @@ jobs:
             - name: 'Build'
               run: |
                 pip install hatch
+                hatch test
                 hatch build
                 Invoke-WebRequest "https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64-pc-windows-msvc-install_only.tar.gz" -OutFile "my_cpython.tar.gz"
                 tar -xzf my_cpython.tar.gz

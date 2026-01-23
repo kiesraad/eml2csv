@@ -59,7 +59,7 @@ class _Output:
         self.flush()
 
     def write_to_file(self, filename: str):
-        with open(filename, "w", encoding="utf-8") as out:
+        with open(filename, "w", encoding="utf-8-sig") as out:
             out.write(self.content[:-1])
 
 

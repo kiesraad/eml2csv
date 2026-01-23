@@ -36,6 +36,7 @@ def test_gr22_output_csv_matches_oracle_file(tmp_path):
 
     assert expected == actual, f"Output file differences: {tmp_path / output_csv}"
 
+
 @pytest.fixture
 def change_to_tmp_path(tmp_path):
     # Output csv is written to current directory,
@@ -46,6 +47,7 @@ def change_to_tmp_path(tmp_path):
     yield cwd, tmp_path
     os.chdir(cwd)
 
+
 def test_tk25_output_csv_file_generated(change_to_tmp_path):
     output_csv = "osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv"
     old_path, new_path = change_to_tmp_path
@@ -53,8 +55,12 @@ def test_tk25_output_csv_file_generated(change_to_tmp_path):
     assert os.listdir(new_path) == []
 
     eml2csv(
-        counts_eml_path=str(old_path / "tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml"),
-        candidates_eml_path=str(old_path / "tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml"),
+        counts_eml_path=str(
+            old_path / "tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml"
+        ),
+        candidates_eml_path=str(
+            old_path / "tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml"
+        ),
         output_csv_path=None,
     )
 
@@ -67,7 +73,9 @@ def test_tk25_output_csv_file_generated(change_to_tmp_path):
 
 
 def test_counts_file_is_not_an_eml_510b():
-    with pytest.raises(InvalidInputException, match=r"was not an EML counts file \(510b\)"):
+    with pytest.raises(
+        InvalidInputException, match=r"was not an EML counts file \(510b\)"
+    ):
         eml2csv(
             counts_eml_path="tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
             candidates_eml_path="tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
@@ -76,7 +84,9 @@ def test_counts_file_is_not_an_eml_510b():
 
 
 def test_candidates_file_is_not_an_eml_230b():
-    with pytest.raises(InvalidInputException, match=r"was not an EML candidates file \(230b\)"):
+    with pytest.raises(
+        InvalidInputException, match=r"was not an EML candidates file \(230b\)"
+    ):
         eml2csv(
             counts_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
             candidates_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
@@ -85,20 +95,24 @@ def test_candidates_file_is_not_an_eml_230b():
 
 
 def test_contest_ids_do_not_match():
-    with pytest.raises(InvalidInputException,
-                       match=r"Contest ids did not match! Counts file was 6 while candidates file was 10"):
+    with pytest.raises(
+        InvalidInputException,
+        match=r"Contest ids did not match! Counts file was 6 while candidates file was 10",
+    ):
         eml2csv(
             counts_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
             candidates_eml_path="tests/Kandidatenlijsten_TK2025_Haarlem.eml.xml",
             output_csv_path=None,
         )
 
+
 def test_election_ids_do_not_match():
-    with pytest.raises(InvalidInputException,
-                       match=r"Election ids did not match! Counts file was TK2025 while candidates file was GR2022_WestMaasenWaal"):
+    with pytest.raises(
+        InvalidInputException,
+        match=r"Election ids did not match! Counts file was TK2025 while candidates file was GR2022_WestMaasenWaal",
+    ):
         eml2csv(
             counts_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
             candidates_eml_path="tests/Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml",
             output_csv_path=None,
         )
-

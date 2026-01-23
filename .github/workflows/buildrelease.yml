@@ -15,7 +15,7 @@ jobs:
             - name: 'Setup python'
               uses: actions/setup-python@v5
               with:
-                python-version: '3.8'
+                python-version: '3.12'
             - name: 'Setup Rust'
               uses: actions-rust-lang/setup-rust-toolchain@v1
             - name: 'Clone pyapp'
@@ -27,7 +27,7 @@ jobs:
             - name: 'Build'
               run: |
                 pip install hatch
-                hatch test
+                hatch run test
                 hatch build
                 wget https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64_v3-unknown-linux-gnu-install_only.tar.gz -O my_cpython.tar.gz
                 tar -xzf my_cpython.tar.gz

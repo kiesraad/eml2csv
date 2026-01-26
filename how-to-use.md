@@ -15,7 +15,7 @@ Dit is de aanbevolen (en makkelijkste) methode.
 - Houdt `CTRL` ingedrukt om ook het kandidatenlijsten bestand te selecteren.
 - Verplaats de 2 EML-bestanden nu naar het installatiebestand toe.
 - Het programma zet de EML-bestanden nu om naar een CSV-bestand. Dit CSV-bestand wordt in dezelfde map opgeslagen.
-Het CSV-bestand heet `osv4-3_telling_{election_id}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
+Het CSV-bestand heet `osv4-3_telling_{naam_verkiezing}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
 
 Bovenstaande stappen zijn ook terug te kijken op deze video:
 https://github.com/user-attachments/assets/86053e07-e164-49a4-bb6e-c28dde467fbc
@@ -35,7 +35,7 @@ Deze methode is alleen geschikt voor gebruikers die overweg kunnen met PowerShel
 Vervang hierbij alles wat in blokhaken `[]` staat voor de juiste bestandsnamen.
 `eml2csv-[versienummer].exe [TELLING_BESTAND].eml.xml [KANDIDATENLIJSTEN_BESTAND].eml.xml`
 - Het programma zet de EML-bestanden nu om naar een CSV-bestand. Dit CSV-bestand wordt in dezelfde map opgeslagen.
-Het CSV-bestand heet `osv4-3_telling_{election_id}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
+Het CSV-bestand heet `osv4-3_telling_{naam_verkiezing}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
 
 - Het is ook mogelijk om nog een derde parameter mee te geven; hiermee kan je de naam van het CSV-bestand aanpasssen:
 `eml2csv-[versienummer].exe [TELLING_BESTAND].eml.xml [KANDIDATENLIJSTEN_BESTAND].eml.xml andere_naam_csv_bestand.csv`
@@ -57,7 +57,7 @@ Uitleg over de 3 parameters is hiermee te raadplegen: `eml2csv-[versienummer].ex
   Vervang hierbij alles wat in blokhaken `[]` staat voor de juiste bestandsnamen.
   `eml2csv-[versienummer] [TELLING_BESTAND].eml.xml [KANDIDATENLIJSTEN_BESTAND].eml.xml`
 - Het programma zet nu de EML-bestanden nu om naar een CSV-bestand. Dit CSV-bestand wordt in dezelfde map opgeslagen.
-  Het CSV-bestand heet `osv4-3_telling_{election_id}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
+  Het CSV-bestand heet `osv4-3_telling_{naam_verkiezing}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
 
 - Het is ook mogelijk om nog een derde parameter mee te geven. Dit is een optionele parameter. Hiermee kan je de naam van het CSV-bestand aanpasssen:
   `eml2csv-[versienummer] [TELLING_BESTAND].eml.xml [KANDIDATENLIJSTEN_BESTAND].eml.xml andere_naam_csv_bestand.csv`

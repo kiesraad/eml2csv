@@ -22,15 +22,15 @@ https://github.com/user-attachments/assets/86053e07-e164-49a4-bb6e-c28dde467fbc
 
 ### Windows (geavanceerd)
 
-Deze methode is alleen geschikt voor gebruikers die overweg kunnen met PowerShell.
+Deze methode is alleen geschikt voor gebruikers die overweg kunnen met CMD (Command Prompt) of PowerShell.
 - Op de hoofdpagina van de eml2csv-repository klik je aan de rechterkant op [Releases](https://github.com/kiesraad/eml2csv/releases).
 - Klik bij de bovenste release op `Assets` en klik vervolgens op het installatiebestand `eml2csv-[versienummer].exe` om het te downloaden.
 - Kopieer het installatiebestand naar een aparte map.
 - Kopieer de volgende EML-bestanden naar dezelfde map als het installatiebestand:
     - Telling bestand (EML 510b)
     - Kandidatenlijsten bestand (EML 230b).
-- Open PowerShell.
-- Navigeer naar deze map in PowerShell.
+- Open CMD (Command Prompt) of PowerShell.
+- Navigeer naar de map die je net hebt aangemaakt.
 - Voer het volgende commando uit om de EML-bestanden om te zetten.
 Vervang hierbij alles wat in blokhaken `[]` staat voor de juiste bestandsnamen.
 `eml2csv-[versienummer].exe [TELLING_BESTAND].eml.xml [KANDIDATENLIJSTEN_BESTAND].eml.xml`

@@ -24,7 +24,7 @@ def test_tk25_output_csv_matches_oracle_file(tmp_path):
 
 
 def test_gr22_output_csv_matches_oracle_file(tmp_path):
-    output_csv = "osv4-3_telling_gr2022westmaasenwaal_gemeente_westmaasenwaal.csv"
+    output_csv = "osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv"
     eml2csv(
         counts_eml_path="tests/Telling_GR2022_WestMaasenWaal.eml.xml",
         candidates_eml_path="tests/Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml",
@@ -48,18 +48,23 @@ def change_to_tmp_path(tmp_path):
     os.chdir(cwd)
 
 
-def test_tk25_output_csv_file_generated(change_to_tmp_path):
-    output_csv = "osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv"
+@pytest.mark.parametrize("output_filename, counts_eml_filename, candidates_eml_filename",
+[
+    ("osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv", "Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml", "Kandidatenlijsten_TK2025_Nijmegen.eml.xml" ),
+    ("osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv", "Telling_GR2022_WestMaasenWaal.eml.xml", "Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml" ),
+], ids= ["tk25", "gr22"])
+def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_eml_filename, candidates_eml_filename):
+    output_csv = output_filename
     old_path, new_path = change_to_tmp_path
 
     assert os.listdir(new_path) == []
 
     eml2csv(
         counts_eml_path=str(
-            old_path / "tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml"
+            old_path / "tests" / counts_eml_filename
         ),
         candidates_eml_path=str(
-            old_path / "tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml"
+            old_path / "tests" / candidates_eml_filename
         ),
         output_csv_path=None,
     )

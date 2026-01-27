@@ -59,7 +59,7 @@ class _Output:
         self.flush()
 
     def write_to_file(self, filename: str):
-        with open(filename, "w", encoding="utf-8") as out:
+        with open(filename, "w", encoding="utf-8-sig") as out:
             out.write(self.content[:-1])
 
 
@@ -328,11 +328,14 @@ def eml2csv(
 
     # If no output file name is specified, construct one automatically
     if output_csv_path is None:
+        # Normalise the election id and take the first six characters.
+        # This is because for example for GR elections the ID is GR2080_Juinen
+        # and we add the authorityname already.
         election_id = normalise(
             _get_mandatory_attrib(
                 counts_eml.find(".//eml:ElectionIdentifier", namespaces=ns), "Id"
             )
-        )
+        )[:6]
         output_csv_path = f"osv4-3_telling_{election_id}_{authority_type.lower().replace(' ', '_')}_{normalise(authority_name)}.csv"
 
     output.write_to_file(output_csv_path)

@@ -6,14 +6,14 @@ Hieronder staat per besturingssysteem uitgelegd hoe je de EML-bestanden kan omze
 
 Dit is de aanbevolen (en makkelijkste) methode.
 - Op de hoofdpagina van de eml2csv-repository klik je aan de rechterkant op [Releases](https://github.com/kiesraad/eml2csv/releases).
-- Klik bij de bovenste release op `Assets` en klik vervolgens op het installatiebestand `eml2csv-[versienummer].exe` om het te downloaden.
-- Kopieer het installatiebestand naar een aparte map.
-- Kopieer de volgende EML-bestanden naar dezelfde map als het installatiebestand:
+- Klik bij de bovenste release op `Assets` en klik vervolgens op het programma `eml2csv-[versienummer].exe` om het te downloaden.
+- Kopieer het programma naar een aparte map.
+- Kopieer de volgende EML-bestanden naar dezelfde map als het programma:
     - Tellingbestand (EML 510b)
     - Kandidatenlijstenbestand (EML 230b)
 - Selecteer eerst het tellingbestand.
 - Houd `CTRL` ingedrukt om ook het kandidatenlijstenbestand te selecteren.
-- Sleep de 2 EML-bestanden nu naar het installatiebestand.
+- Sleep de 2 EML-bestanden nu naar het programma.
 - Het programma zet de EML-bestanden nu om naar een CSV-bestand. Dit CSV-bestand wordt in dezelfde map opgeslagen.
 Het CSV-bestand heet `osv4-3_telling_{naam_verkiezing}_{gemeente/openbaar_lichaam}_{gemeentenaam}.csv`.
 
@@ -24,9 +24,9 @@ https://github.com/user-attachments/assets/86053e07-e164-49a4-bb6e-c28dde467fbc
 
 Deze methode is alleen geschikt voor gebruikers die overweg kunnen met CMD (Command Prompt) of PowerShell.
 - Op de hoofdpagina van de eml2csv-repository klik je aan de rechterkant op [Releases](https://github.com/kiesraad/eml2csv/releases).
-- Klik bij de bovenste release op `Assets` en klik vervolgens op het installatiebestand `eml2csv-[versienummer].exe` om het te downloaden.
-- Kopieer het installatiebestand naar een aparte map.
-- Kopieer de volgende EML-bestanden naar dezelfde map als het installatiebestand:
+- Klik bij de bovenste release op `Assets` en klik vervolgens op het programma `eml2csv-[versienummer].exe` om het te downloaden.
+- Kopieer het programma naar een aparte map.
+- Kopieer de volgende EML-bestanden naar dezelfde map als het programma:
     - Tellingbestand (EML 510b)
     - Kandidatenlijstenbestand (EML 230b).
 - Open CMD (Command Prompt) of PowerShell.

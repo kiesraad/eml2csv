@@ -17,10 +17,8 @@ def test_tk25_output_csv_matches_oracle_file(tmp_path):
         output_csv_path=str(tmp_path / output_csv),
     )
 
-    actual = open(tmp_path / output_csv).readlines()
-    expected = open(tests_path / output_csv).readlines()
-
-    assert actual == expected, f"Output file differences: {tmp_path / output_csv}"
+    with open(tmp_path / output_csv) as actual, open(tests_path / output_csv) as expected:
+        assert actual.readlines() == expected.readlines(), f"Output file differences: {tmp_path / output_csv}"
 
 
 def test_gr22_output_csv_matches_oracle_file(tmp_path):
@@ -31,10 +29,8 @@ def test_gr22_output_csv_matches_oracle_file(tmp_path):
         output_csv_path=str(tmp_path / output_csv),
     )
 
-    actual = open(tmp_path / output_csv).readlines()
-    expected = open(tests_path / output_csv).readlines()
-
-    assert actual == expected, f"Output file differences: {tmp_path / output_csv}"
+    with open(tmp_path / output_csv) as actual, open(tests_path / output_csv) as expected:
+        assert actual.readlines() == expected.readlines(), f"Output file differences: {tmp_path / output_csv}"
 
 
 @pytest.fixture
@@ -71,10 +67,8 @@ def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_e
 
     assert os.listdir(new_path) == [output_csv]
 
-    actual = open(new_path / output_csv).readlines()
-    expected = open(old_path / "tests" / output_csv).readlines()
-
-    assert actual == expected, f"Output file differences: {new_path / output_csv}"
+    with open(new_path / output_csv) as actual, open(old_path / "tests" / output_csv) as expected:
+        assert actual.readlines() == expected.readlines(), f"Output file differences: {new_path / output_csv}"
 
 
 def test_counts_file_is_not_an_eml_510b():

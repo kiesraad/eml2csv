@@ -406,7 +406,7 @@ def _get_candidate_info(candidates_eml: XmlElement):
 
 
 def _get_votecount_matrix(counts_eml: XmlElement):
-    votes = defaultdict(list)
+    votes: defaultdict = defaultdict(list)
     _votecount_matrix(counts_eml, votes, reporting_units=False)
     _votecount_matrix(counts_eml, votes, reporting_units=True)
     return votes

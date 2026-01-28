@@ -370,12 +370,12 @@ def _extract_reporting_unit_id(reporting_unit_id: str) -> str:
 def _get_candidate_info(candidates_eml: XmlElement):
     candidate_info = defaultdict(list)
     for aff in candidates_eml.findall(".//eml:Affiliation", namespaces=NS):
-        aff_id = aff.find("./eml:AffiliationIdentifier", namespaces=NS)
-        if aff_id is None:
+        aff_identifier = aff.find("./eml:AffiliationIdentifier", namespaces=NS)
+        if aff_identifier is None:
             raise Exception("Affiliation without identifier in candidate list!")
-        id = _get_mandatory_attrib(aff_id, "Id")
-        name = _get_mandatory_text(aff_id.find("./eml:RegisteredName", namespaces=NS))
-        aff_key = _AffiliationIdentifier(id, name)
+        aff_identifier_id = _get_mandatory_attrib(aff_identifier, "Id")
+        name = _get_mandatory_text(aff_identifier.find("./eml:RegisteredName", namespaces=NS))
+        aff_key = _AffiliationIdentifier(aff_identifier_id, name)
 
         for cand in aff.findall("./eml:Candidate", namespaces=NS):
             cand_id = _get_mandatory_attrib(

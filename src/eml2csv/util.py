@@ -4,7 +4,7 @@
 from typing import IO
 from xml.etree.ElementTree import Element as XmlElement
 
-from defusedxml import ElementTree as ET
+from defusedxml import ElementTree
 
 NAMESPACE = {
     "eml": "urn:oasis:names:tc:evs:schema:eml",
@@ -24,10 +24,8 @@ def parse_xml(file_name: str | IO[bytes]) -> XmlElement | None:
     Returns:
         Root node of the EML file.
     """
-    tree = ET.parse(file_name)
-    tree_root = tree.getroot()
-
-    return tree_root
+    tree = ElementTree.parse(file_name)
+    return tree.getroot()
 
 
 def _get_text(xml_element: XmlElement | None) -> str | None:

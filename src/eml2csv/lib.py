@@ -310,7 +310,7 @@ def eml2csv(
     candidate_info = _get_candidate_info(candidates_eml)
     votes = _get_votecount_matrix(counts_eml)
 
-    for affiliation in candidate_info.keys():
+    for affiliation in candidate_info:
         # Push affiliation total votes
         output.push(
             [affiliation.id, affiliation.name, "", ""] + votes[(affiliation.id, None)]

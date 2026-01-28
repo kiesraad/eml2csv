@@ -8,15 +8,11 @@ from eml2csv import eml2csv
 def main(
     counts_eml: Annotated[
         str,
-        typer.Argument(
-            help="Path to the counts EML file to generate the csv for (EML-510b)"
-        ),
+        typer.Argument(help="Path to the counts EML file to generate the csv for (EML-510b)"),
     ],
     candidates_eml: Annotated[
         str,
-        typer.Argument(
-            help="Path to the candidates EML file which corresponds to the specified counts EML (EML-230b)"
-        ),
+        typer.Argument(help="Path to the candidates EML file which corresponds to the specified counts EML (EML-230b)"),
     ],
     output: Annotated[
         str | None,

@@ -44,11 +44,22 @@ def change_to_tmp_path(tmp_path):
     os.chdir(cwd)
 
 
-@pytest.mark.parametrize(("output_filename", "counts_eml_filename", "candidates_eml_filename"),
-[
-    ("osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv", "Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml", "Kandidatenlijsten_TK2025_Nijmegen.eml.xml" ),
-    ("osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv", "Telling_GR2022_WestMaasenWaal.eml.xml", "Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml" ),
-], ids= ["tk25", "gr22"])
+@pytest.mark.parametrize(
+    ("output_filename", "counts_eml_filename", "candidates_eml_filename"),
+    [
+        (
+            "osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv",
+            "Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
+            "Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
+        ),
+        (
+            "osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv",
+            "Telling_GR2022_WestMaasenWaal.eml.xml",
+            "Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml",
+        ),
+    ],
+    ids=["tk25", "gr22"],
+)
 def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_eml_filename, candidates_eml_filename):
     output_csv = output_filename
     old_path, new_path = change_to_tmp_path
@@ -56,12 +67,8 @@ def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_e
     assert os.listdir(new_path) == []
 
     eml2csv(
-        counts_eml_path=str(
-            old_path / "tests" / counts_eml_filename
-        ),
-        candidates_eml_path=str(
-            old_path / "tests" / candidates_eml_filename
-        ),
+        counts_eml_path=str(old_path / "tests" / counts_eml_filename),
+        candidates_eml_path=str(old_path / "tests" / candidates_eml_filename),
         output_csv_path=None,
     )
 
@@ -72,9 +79,7 @@ def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_e
 
 
 def test_counts_file_is_not_an_eml_510b():
-    with pytest.raises(
-        InvalidInputError, match=r"was not an EML counts file \(510b\)"
-    ):
+    with pytest.raises(InvalidInputError, match=r"was not an EML counts file \(510b\)"):
         eml2csv(
             counts_eml_path="tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
             candidates_eml_path="tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
@@ -83,9 +88,7 @@ def test_counts_file_is_not_an_eml_510b():
 
 
 def test_candidates_file_is_not_an_eml_230b():
-    with pytest.raises(
-        InvalidInputError, match=r"was not an EML candidates file \(230b\)"
-    ):
+    with pytest.raises(InvalidInputError, match=r"was not an EML candidates file \(230b\)"):
         eml2csv(
             counts_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
             candidates_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",

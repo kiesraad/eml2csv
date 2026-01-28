@@ -38,9 +38,7 @@ def _get_mandatory_text(xml_element: XmlElement | None) -> str:
 
     text = xml_element.text
     if text is None:
-        raise AttributeError(
-            f"Element {xml_element} did not have text but was mandatory"
-        )
+        raise AttributeError(f"Element {xml_element} did not have text but was mandatory")
 
     return text
 
@@ -55,8 +53,6 @@ def _get_mandatory_attrib(xml_element: XmlElement | None, attrib_name: str) -> s
 
     attrib = xml_element.attrib.get(attrib_name)
     if attrib is None:
-        raise AttributeError(
-            f"Element {xml_element} did not have attribute {attrib_name} but was mandatory"
-        )
+        raise AttributeError(f"Element {xml_element} did not have attribute {attrib_name} but was mandatory")
 
     return attrib

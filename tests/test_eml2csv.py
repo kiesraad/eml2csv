@@ -44,7 +44,7 @@ def change_to_tmp_path(tmp_path):
     os.chdir(cwd)
 
 
-@pytest.mark.parametrize("output_filename, counts_eml_filename, candidates_eml_filename",
+@pytest.mark.parametrize(("output_filename", "counts_eml_filename", "candidates_eml_filename"),
 [
     ("osv4-3_telling_tk2025_gemeente_westmaasenwaal.csv", "Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml", "Kandidatenlijsten_TK2025_Nijmegen.eml.xml" ),
     ("osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv", "Telling_GR2022_WestMaasenWaal.eml.xml", "Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml" ),

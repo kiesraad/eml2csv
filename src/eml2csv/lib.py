@@ -411,7 +411,7 @@ def _get_votecount_matrix(counts_eml: XmlElement):
 def _votecount_matrix(
     counts_eml: XmlElement,
     votes,
-    reporting_units: bool,
+    reporting_units: bool,  # noqa: FBT001
 ):
     affid_cur = None
     candid_cur = None

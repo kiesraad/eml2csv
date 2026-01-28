@@ -1,4 +1,4 @@
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
 
@@ -19,7 +19,7 @@ def main(
         ),
     ],
     output: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             help="""CSV file to write to. NOTE: if the file already exists then it will be overwritten!\n
             If left blank, filename will be automatically generated and written to the current working directory"""

@@ -4,7 +4,6 @@
 import re
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import List, Optional
 from xml.etree.ElementTree import Element as XmlElement
 
 from eml2csv.util import NAMESPACE as ns
@@ -33,13 +32,13 @@ def normalise(str_to_normalise: str) -> str:
 @dataclass
 class _Output:
     content: str
-    buffer: List[str]
+    buffer: list[str]
 
     def __init__(self):
         self.content = ""
         self.buffer = []
 
-    def append(self, li: List[str]):
+    def append(self, li: list[str]):
         self.buffer += li
 
     def flush(self):
@@ -51,7 +50,7 @@ class _Output:
         self.buffer = []
         self.content += "\n"
 
-    def push(self, li: List[str]):
+    def push(self, li: list[str]):
         self.append(li)
         self.flush()
 
@@ -73,7 +72,7 @@ class _CandidateIdentifier:
 
 
 def eml2csv(
-    counts_eml_path: str, candidates_eml_path: str, output_csv_path: Optional[str]
+    counts_eml_path: str, candidates_eml_path: str, output_csv_path: str | None
 ):
     ## Init output
     output = _Output()
@@ -344,7 +343,7 @@ def _generate_metadata_row(eml: XmlElement, name: str, eml_elem: str) -> list[st
     )
 
 
-def _extract_zip_from_name(reporting_unit_name: Optional[str]) -> str:
+def _extract_zip_from_name(reporting_unit_name: str | None) -> str:
     if reporting_unit_name is None:
         return ""
     search_result = re.search(ZIP_REGEX, reporting_unit_name)
@@ -356,7 +355,7 @@ def _extract_zip_from_name(reporting_unit_name: Optional[str]) -> str:
     return search_groups[0]
 
 
-def _clean_name(reporting_unit_name: Optional[str]) -> str:
+def _clean_name(reporting_unit_name: str | None) -> str:
     return (
         re.sub(ZIP_REGEX, "", re.sub(SB_REGEX, "", reporting_unit_name))
         if reporting_unit_name is not None

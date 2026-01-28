@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2025-present Chris Mostert <15890652+chrismostert@users.noreply.github.com>
 #
 # SPDX-License-Identifier: EUPL-1.2
-from typing import IO, Optional, Union
+from typing import IO
 from xml.etree.ElementTree import Element as XmlElement
 
 from defusedxml import ElementTree as ET
@@ -15,7 +15,7 @@ NAMESPACE = {
 }
 
 
-def parse_xml(file_name: Union[str, IO[bytes]]) -> Optional[XmlElement]:
+def parse_xml(file_name: str | IO[bytes]) -> XmlElement | None:
     """Fetch the root node of an EML XML DOM-tree given a filepath.
 
     Args:
@@ -30,11 +30,11 @@ def parse_xml(file_name: Union[str, IO[bytes]]) -> Optional[XmlElement]:
     return tree_root
 
 
-def _get_text(xml_element: Optional[XmlElement]) -> Optional[str]:
+def _get_text(xml_element: XmlElement | None) -> str | None:
     return xml_element.text if xml_element is not None else None
 
 
-def _get_mandatory_text(xml_element: Optional[XmlElement]) -> str:
+def _get_mandatory_text(xml_element: XmlElement | None) -> str:
     if xml_element is None:
         raise ValueError("Could not find specified XML element")
 
@@ -47,11 +47,11 @@ def _get_mandatory_text(xml_element: Optional[XmlElement]) -> str:
     return text
 
 
-def _get_attrib(xml_element: Optional[XmlElement], attrib_name: str) -> Optional[str]:
+def _get_attrib(xml_element: XmlElement | None, attrib_name: str) -> str | None:
     return xml_element.attrib.get(attrib_name) if xml_element is not None else None
 
 
-def _get_mandatory_attrib(xml_element: Optional[XmlElement], attrib_name: str) -> str:
+def _get_mandatory_attrib(xml_element: XmlElement | None, attrib_name: str) -> str:
     if xml_element is None:
         raise ValueError("Could not find specified XML element")
 

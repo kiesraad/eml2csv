@@ -59,6 +59,7 @@ cov = [
 python = ["3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.types]
+template = "default"
 dependencies = [
   "mypy>=1.0.0",
 ]

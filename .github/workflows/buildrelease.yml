@@ -28,6 +28,7 @@ jobs:
               run: |
                 pip install hatch
                 hatch run types:check
+                hatch fmt --check
                 hatch run test
             - name: 'Build'
               run: |
@@ -77,6 +78,7 @@ jobs:
               run: |
                 pip install hatch
                 hatch run types:check
+                hatch fmt --check
                 hatch run test
             - name: 'Build'
               run: |

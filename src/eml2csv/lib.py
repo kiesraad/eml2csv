@@ -322,7 +322,7 @@ def _get_candidate_info(candidates_eml: XmlElement):
     for aff in candidates_eml.findall(".//eml:Affiliation", namespaces=NS):
         aff_identifier = aff.find("./eml:AffiliationIdentifier", namespaces=NS)
         if aff_identifier is None:
-            raise Exception("Affiliation without identifier in candidate list!")
+            raise ValueError("Affiliation without identifier in candidate list!")
         aff_identifier_id = _get_mandatory_attrib(aff_identifier, "Id")
         name = _get_mandatory_text(aff_identifier.find("./eml:RegisteredName", namespaces=NS))
         aff_key = _AffiliationIdentifier(aff_identifier_id, name)

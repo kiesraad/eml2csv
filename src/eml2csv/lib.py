@@ -39,9 +39,6 @@ class _Output:
         self.content = ""
         self.buffer = []
 
-    def add(self, s: str):
-        self.buffer.append(s)
-
     def append(self, li: List[str]):
         self.buffer += li
 

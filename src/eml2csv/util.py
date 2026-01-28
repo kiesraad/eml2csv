@@ -30,22 +30,6 @@ def parse_xml(file_name: Union[str, IO[bytes]]) -> Optional[XmlElement]:
     return tree_root
 
 
-def get_eml_type(root: XmlElement) -> Optional[str]:
-    """Fetches the EML ID.
-
-    Args:
-        root: The root node to query.
-
-    Returns:
-        The ID of the EML file (e.g. `"510b"` for municipality counts).
-    """
-    root_element = root.find(".")
-    if root_element and root_element.tag == f"{{{NAMESPACE.get('eml')}}}EML":
-        return _get_attrib(root_element, "Id")
-
-    return None
-
-
 def _get_text(xml_element: Optional[XmlElement]) -> Optional[str]:
     return xml_element.text if xml_element is not None else None
 

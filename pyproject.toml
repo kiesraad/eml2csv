@@ -66,6 +66,13 @@ dependencies = [
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/eml2csv tests}"
 
+[tool.ruff.lint]
+# ignore the following linting rules
+# TRY003 Avoid specifying long messages outside the exception class
+# EM101 Exception must not use a string literal, assign to variable first
+# EM102 Exception must not use an f-string literal, assign to variable first
+ignore = ["TRY003", "EM101", "EM102"]
+
 [tool.coverage.run]
 source_pkgs = ["eml2csv", "tests"]
 branch = true

@@ -15,6 +15,6 @@ jobs:
             - name: 'Install pip and run test suite'
               run: |
                 pip install hatch
-                hatch run types:check
                 hatch run test
+                hatch run types:check
                 hatch build

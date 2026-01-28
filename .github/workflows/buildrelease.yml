@@ -24,11 +24,14 @@ jobs:
                 owner: 'ofek'
                 repository: 'pyapp'
                 branch: 'master'
-            - name: 'Build'
+            - name: 'Test'
               run: |
                 pip install hatch
+                hatch run types:check
                 hatch run test
                 hatch build
+            - name: 'Build'
+              run: |
                 wget https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64_v3-unknown-linux-gnu-install_only.tar.gz -O my_cpython.tar.gz
                 tar -xzf my_cpython.tar.gz
                 ./python/bin/pip install .
@@ -70,11 +73,14 @@ jobs:
                 owner: 'ofek'
                 repository: 'pyapp'
                 branch: 'master'
-            - name: 'Build'
+            - name: 'Test'
               run: |
                 pip install hatch
+                hatch run types:check
                 hatch run test
                 hatch build
+            - name: 'Build'
+              run: |
                 Invoke-WebRequest "https://github.com/indygreg/python-build-standalone/releases/download/20240415/cpython-3.12.3%2B20240415-x86_64-pc-windows-msvc-install_only.tar.gz" -OutFile "my_cpython.tar.gz"
                 tar -xzf my_cpython.tar.gz
                 .\python\python.exe -m pip install .
@@ -96,4 +102,3 @@ jobs:
                 GITHUB_TOKEN: ${{ github.TOKEN }}
               shell:
                 pwsh
-                

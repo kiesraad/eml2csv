@@ -193,8 +193,8 @@ def eml2csv(
         ["Lijstnummer", "Aanduiding", "Volgnummer", "Naam kandidaat", "Totaal"]
         + [_clean_name(name) for name in reporting_unit_names]
     )
-    output.push(["Gebiednummer", "", "", "", ""] + reporting_unit_ids)
-    output.push(["Postcode", "", "", "", ""] + reporting_unit_zips)
+    output.push(["Gebiednummer", "", "", "", "", *reporting_unit_ids])
+    output.push(["Postcode", "", "", "", "", *reporting_unit_zips])
 
     ## METADATA INFO
     output.push(_generate_metadata_row(counts_eml, "opgeroepenen", ".//eml:Cast"))

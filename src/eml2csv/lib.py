@@ -179,19 +179,19 @@ def eml2csv(
     reporting_units = counts_eml.findall(
         ".//eml:ReportingUnitIdentifier", namespaces=NS
     )
-    reporting_unit_names = list(_get_mandatory_text(elem) for elem in reporting_units)
-    reporting_unit_ids = list(
+    reporting_unit_names = [_get_mandatory_text(elem) for elem in reporting_units]
+    reporting_unit_ids = [
         _extract_reporting_unit_id(_get_mandatory_attrib(elem, "Id"))
         for elem in reporting_units
-    )
-    reporting_unit_zips = list(
+    ]
+    reporting_unit_zips = [
         _extract_zip_from_name(name) for name in reporting_unit_names
-    )
+    ]
 
     # Main header with polling stations and zip codes
     output.push(
         ["Lijstnummer", "Aanduiding", "Volgnummer", "Naam kandidaat", "Totaal"]
-        + list(_clean_name(name) for name in reporting_unit_names)
+        + [_clean_name(name) for name in reporting_unit_names]
     )
     output.push(["Gebiednummer", "", "", "", ""] + reporting_unit_ids)
     output.push(["Postcode", "", "", "", ""] + reporting_unit_zips)
@@ -338,9 +338,9 @@ def eml2csv(
 
 
 def _generate_metadata_row(eml: XmlElement, name: str, eml_elem: str) -> list[str]:
-    return ["", name, "", ""] + list(
+    return ["", name, "", ""] + [
         _get_mandatory_text(elem) for elem in eml.findall(eml_elem, namespaces=NS)
-    )
+    ]
 
 
 def _extract_zip_from_name(reporting_unit_name: str | None) -> str:

@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 from eml2csv import eml2csv
-from eml2csv.lib import InvalidInputException
+from eml2csv.lib import InvalidInputError
 
 tests_path = Path("tests")
 
@@ -79,7 +79,7 @@ def test_output_csv_file_generated(change_to_tmp_path, output_filename, counts_e
 
 def test_counts_file_is_not_an_eml_510b():
     with pytest.raises(
-        InvalidInputException, match=r"was not an EML counts file \(510b\)"
+        InvalidInputError, match=r"was not an EML counts file \(510b\)"
     ):
         eml2csv(
             counts_eml_path="tests/Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
@@ -90,7 +90,7 @@ def test_counts_file_is_not_an_eml_510b():
 
 def test_candidates_file_is_not_an_eml_230b():
     with pytest.raises(
-        InvalidInputException, match=r"was not an EML candidates file \(230b\)"
+        InvalidInputError, match=r"was not an EML candidates file \(230b\)"
     ):
         eml2csv(
             counts_eml_path="tests/Telling_TK2025_gemeente_West_Maas_en_Waal.eml.xml",
@@ -101,7 +101,7 @@ def test_candidates_file_is_not_an_eml_230b():
 
 def test_contest_ids_do_not_match():
     with pytest.raises(
-        InvalidInputException,
+        InvalidInputError,
         match=r"Contest ids did not match! Counts file was 6 while candidates file was 10",
     ):
         eml2csv(
@@ -113,7 +113,7 @@ def test_contest_ids_do_not_match():
 
 def test_election_ids_do_not_match():
     with pytest.raises(
-        InvalidInputException,
+        InvalidInputError,
         match=r"Election ids did not match! Counts file was TK2025 while candidates file was GR2022_WestMaasenWaal",
     ):
         eml2csv(

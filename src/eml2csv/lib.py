@@ -21,7 +21,7 @@ ZIP_REGEX = re.compile(r" \(postcode: (\d{4} \w{2})\)")
 NON_LETTERS_REGEX = re.compile(r"[^0-9a-zA-Z]")
 
 
-class InvalidInputException(Exception):
+class InvalidInputError(Exception):
     pass
 
 
@@ -83,19 +83,19 @@ def eml2csv(
 
     # Check if parsing succeeded
     if counts_eml is None:
-        raise InvalidInputException(f"Could not parse {counts_eml_path}")
+        raise InvalidInputError(f"Could not parse {counts_eml_path}")
     if candidates_eml is None:
-        raise InvalidInputException(f"Could not parse {candidates_eml_path}")
+        raise InvalidInputError(f"Could not parse {candidates_eml_path}")
 
     # Check if the supplied files match and are the expected EML id
     counts_id = _get_attrib(counts_eml, "Id")
     candidates_id = _get_attrib(candidates_eml, "Id")
     if counts_id != "510b" or counts_eml.tag != f"{{{NS['eml']}}}EML":
-        raise InvalidInputException(
+        raise InvalidInputError(
             f"{counts_eml_path} was not an EML counts file (510b)!"
         )
     if candidates_id != "230b" or candidates_eml.tag != f"{{{NS['eml']}}}EML":
-        raise InvalidInputException(
+        raise InvalidInputError(
             f"{candidates_eml_path} was not an EML candidates file (230b)!"
         )
 
@@ -111,7 +111,7 @@ def eml2csv(
         or candidates_election_id is None
         or counts_election_id != candidates_election_id
     ):
-        raise InvalidInputException(
+        raise InvalidInputError(
             f"Election ids did not match! Counts file was {counts_election_id} while candidates file was {candidates_election_id}"
         )
 
@@ -126,7 +126,7 @@ def eml2csv(
         or candidates_contest_id is None
         or counts_contest_id != candidates_contest_id
     ):
-        raise InvalidInputException(
+        raise InvalidInputError(
             f"Contest ids did not match! Counts file was {counts_contest_id} while candidates file was {candidates_contest_id}"
         )
 

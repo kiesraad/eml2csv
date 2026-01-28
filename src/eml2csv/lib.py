@@ -43,7 +43,7 @@ class _Output:
 
     def flush(self):
         for idx, elem in enumerate(self.buffer):
-            elem = elem.replace('"', '""')
+            elem = elem.replace('"', '""')  # noqa: PLW2901
             self.content += f'"{elem}"' if elem != "" else ""
             if idx != len(self.buffer) - 1:
                 self.content += ";"

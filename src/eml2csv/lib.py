@@ -6,7 +6,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from xml.etree.ElementTree import Element as XmlElement
 
-from eml2csv.util import NAMESPACE as ns
+from eml2csv.util import NAMESPACE as NS
 from eml2csv.util import (
     _get_attrib,
     _get_mandatory_attrib,
@@ -90,21 +90,21 @@ def eml2csv(
     # Check if the supplied files match and are the expected EML id
     counts_id = _get_attrib(counts_eml, "Id")
     candidates_id = _get_attrib(candidates_eml, "Id")
-    if counts_id != "510b" or counts_eml.tag != f"{{{ns['eml']}}}EML":
+    if counts_id != "510b" or counts_eml.tag != f"{{{NS['eml']}}}EML":
         raise InvalidInputException(
             f"{counts_eml_path} was not an EML counts file (510b)!"
         )
-    if candidates_id != "230b" or candidates_eml.tag != f"{{{ns['eml']}}}EML":
+    if candidates_id != "230b" or candidates_eml.tag != f"{{{NS['eml']}}}EML":
         raise InvalidInputException(
             f"{candidates_eml_path} was not an EML candidates file (230b)!"
         )
 
     # Check if election id and contest id match
     counts_election_id = _get_attrib(
-        counts_eml.find(".//eml:ElectionIdentifier", namespaces=ns), "Id"
+        counts_eml.find(".//eml:ElectionIdentifier", namespaces=NS), "Id"
     )
     candidates_election_id = _get_attrib(
-        candidates_eml.find(".//eml:ElectionIdentifier", namespaces=ns), "Id"
+        candidates_eml.find(".//eml:ElectionIdentifier", namespaces=NS), "Id"
     )
     if (
         counts_election_id is None
@@ -116,10 +116,10 @@ def eml2csv(
         )
 
     counts_contest_id = _get_attrib(
-        counts_eml.find(".//eml:ContestIdentifier", namespaces=ns), "Id"
+        counts_eml.find(".//eml:ContestIdentifier", namespaces=NS), "Id"
     )
     candidates_contest_id = _get_attrib(
-        candidates_eml.find(".//eml:ContestIdentifier", namespaces=ns), "Id"
+        candidates_eml.find(".//eml:ContestIdentifier", namespaces=NS), "Id"
     )
     if (
         counts_contest_id is None
@@ -135,7 +135,7 @@ def eml2csv(
         [
             "Verkiezing",
             "",
-            _get_mandatory_text(counts_eml.find(".//eml:ElectionName", namespaces=ns)),
+            _get_mandatory_text(counts_eml.find(".//eml:ElectionName", namespaces=NS)),
         ]
     )
 
@@ -143,12 +143,12 @@ def eml2csv(
         [
             "Datum",
             "",
-            _get_mandatory_text(counts_eml.find(".//kr:ElectionDate", namespaces=ns)),
+            _get_mandatory_text(counts_eml.find(".//kr:ElectionDate", namespaces=NS)),
         ]
     )
 
     authority_name = _get_mandatory_text(
-        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=ns)
+        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=NS)
     )
     authority_type = (
         "Openbaar lichaam"
@@ -164,7 +164,7 @@ def eml2csv(
     )
 
     authority_id = _get_mandatory_attrib(
-        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=ns), "Id"
+        counts_eml.find(".//eml:AuthorityIdentifier", namespaces=NS), "Id"
     )
     output.push(
         [
@@ -177,7 +177,7 @@ def eml2csv(
 
     ## REPORTING UNIT INFO
     reporting_units = counts_eml.findall(
-        ".//eml:ReportingUnitIdentifier", namespaces=ns
+        ".//eml:ReportingUnitIdentifier", namespaces=NS
     )
     reporting_unit_names = list(_get_mandatory_text(elem) for elem in reporting_units)
     reporting_unit_ids = list(
@@ -329,7 +329,7 @@ def eml2csv(
         # and we add the authorityname already.
         election_id = normalise(
             _get_mandatory_attrib(
-                counts_eml.find(".//eml:ElectionIdentifier", namespaces=ns), "Id"
+                counts_eml.find(".//eml:ElectionIdentifier", namespaces=NS), "Id"
             )
         )[:6]
         output_csv_path = f"osv4-3_telling_{election_id}_{authority_type.lower().replace(' ', '_')}_{normalise(authority_name)}.csv"
@@ -339,7 +339,7 @@ def eml2csv(
 
 def _generate_metadata_row(eml: XmlElement, name: str, eml_elem: str) -> list[str]:
     return ["", name, "", ""] + list(
-        _get_mandatory_text(elem) for elem in eml.findall(eml_elem, namespaces=ns)
+        _get_mandatory_text(elem) for elem in eml.findall(eml_elem, namespaces=NS)
     )
 
 
@@ -369,24 +369,24 @@ def _extract_reporting_unit_id(reporting_unit_id: str) -> str:
 
 def _get_candidate_info(candidates_eml: XmlElement):
     candidate_info = defaultdict(list)
-    for aff in candidates_eml.findall(".//eml:Affiliation", namespaces=ns):
-        aff_id = aff.find("./eml:AffiliationIdentifier", namespaces=ns)
+    for aff in candidates_eml.findall(".//eml:Affiliation", namespaces=NS):
+        aff_id = aff.find("./eml:AffiliationIdentifier", namespaces=NS)
         if aff_id is None:
             raise Exception("Affiliation without identifier in candidate list!")
         id = _get_mandatory_attrib(aff_id, "Id")
-        name = _get_mandatory_text(aff_id.find("./eml:RegisteredName", namespaces=ns))
+        name = _get_mandatory_text(aff_id.find("./eml:RegisteredName", namespaces=NS))
         aff_key = _AffiliationIdentifier(id, name)
 
-        for cand in aff.findall("./eml:Candidate", namespaces=ns):
+        for cand in aff.findall("./eml:Candidate", namespaces=NS):
             cand_id = _get_mandatory_attrib(
-                cand.find("./eml:CandidateIdentifier", namespaces=ns), "Id"
+                cand.find("./eml:CandidateIdentifier", namespaces=NS), "Id"
             )
             cand_initials = _get_mandatory_text(
-                cand.find(".//xnl:NameLine[@NameType = 'Initials']", namespaces=ns)
+                cand.find(".//xnl:NameLine[@NameType = 'Initials']", namespaces=NS)
             )
-            cand_prefix = _get_text(cand.find(".//xnl:NamePrefix", namespaces=ns))
+            cand_prefix = _get_text(cand.find(".//xnl:NamePrefix", namespaces=NS))
             cand_lastname = _get_mandatory_text(
-                cand.find(".//xnl:LastName", namespaces=ns)
+                cand.find(".//xnl:LastName", namespaces=NS)
             )
 
             cand_name = (
@@ -418,16 +418,17 @@ def _votecount_matrix(
 
     for selection in counts_eml.findall(
         f".//eml:{'TotalVotes' if not reporting_units else 'ReportingUnitVotes'}/eml:Selection",
-        namespaces=ns,
+        namespaces=NS,
     ):
-        affid = selection.find("./eml:AffiliationIdentifier", namespaces=ns)
+        affid = selection.find("./eml:AffiliationIdentifier", namespaces=NS)
         if affid is not None:
             affid_cur = _get_mandatory_attrib(affid, "Id")
             candid_cur = None
         else:
             candid_cur = _get_mandatory_attrib(
-                selection.find(".//eml:CandidateIdentifier", namespaces=ns), "Id"
+                selection.find(".//eml:CandidateIdentifier", namespaces=NS), "Id"
             )
         votes[(affid_cur, candid_cur)].append(
-            _get_mandatory_text(selection.find("./eml:ValidVotes", namespaces=ns))
+            _get_mandatory_text(selection.find("./eml:ValidVotes", namespaces=NS))
         )
+

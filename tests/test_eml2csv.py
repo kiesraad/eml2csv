@@ -22,7 +22,7 @@ def test_tk25_output_csv_matches_oracle_file(tmp_path):
 
 
 def test_gr22_output_csv_matches_oracle_file(tmp_path):
-    output_csv = "osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv"
+    output_csv = "osv4-3_telling_gr2022_westmaasenwaal.csv"
     eml2csv(
         counts_eml_path="tests/Telling_GR2022_WestMaasenWaal.eml.xml",
         candidates_eml_path="tests/Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml",
@@ -53,7 +53,7 @@ def change_to_tmp_path(tmp_path):
             "Kandidatenlijsten_TK2025_Nijmegen.eml.xml",
         ),
         (
-            "osv4-3_telling_gr2022_gemeente_westmaasenwaal.csv",
+            "osv4-3_telling_gr2022_westmaasenwaal.csv",
             "Telling_GR2022_WestMaasenWaal.eml.xml",
             "Kandidatenlijsten_GR2022_WestMaasenWaal.eml.xml",
         ),

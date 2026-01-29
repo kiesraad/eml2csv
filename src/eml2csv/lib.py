@@ -286,9 +286,10 @@ def eml2csv(counts_eml_path: str, candidates_eml_path: str, output_csv_path: str
         election_id = normalise(
             _get_mandatory_attrib(counts_eml.find(".//eml:ElectionIdentifier", namespaces=NS), "Id")
         )[:6]
-        output_csv_path = (
-            f"osv4-3_telling_{election_id}_{authority_type.lower().replace(' ', '_')}_{normalise(authority_name)}.csv"
-        )
+        if election_id.lower().startswith("gr"):
+            output_csv_path = f"osv4-3_telling_{election_id}_{normalise(authority_name)}.csv"
+        else:
+            output_csv_path = f"osv4-3_telling_{election_id}_{authority_type.lower().replace(' ', '_')}_{normalise(authority_name)}.csv"
 
     output.write_to_file(output_csv_path)
 

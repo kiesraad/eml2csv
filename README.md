@@ -17,6 +17,9 @@ pip install eml2csv-{version}-py3-none-any.whl
 
 Alternatively, you can run the script locally with uv `uv run eml2csv --help` or download [one of the packaged binaries](https://github.com/kiesraad/eml2csv/releases/latest) which ship with a python interpreter and required dependencies for use on airgapped systems.
 
+> [!IMPORTANT] 
+> When running the packaged binary on Windows, [Visual C++ Redistributable](https://aka.ms/vc14/vc_redist.x64.exe) must be installed. If you're using [Abacus](https://github.com/kiesraad/abacus), you already have this dependency.
+
 ## How to use
 ### Drag and drop
 If you've downloaded the latest binary release you can generate a .csv file by simply dragging the required files (Telling and Kandidatenlijsten) on the executable. **Make sure that you drag both files, and drag from the 'Telling_' file to ensure that it is passed as the first argument**.

@@ -18,7 +18,7 @@ pip install eml2csv-{version}-py3-none-any.whl
 Alternatively, you can run the script locally with uv `uv run eml2csv --help` or download [one of the packaged binaries](https://github.com/kiesraad/eml2csv/releases/latest) which ship with a python interpreter and required dependencies for use on airgapped systems.
 
 > [!IMPORTANT] 
-> When running the packaged binaries on Windows, [Visual C++ Redistributable](https://aka.ms/vc14/vc_redist.x64.exe) must be installed. If you've also installed [Abacus](https://github.com/kiesraad/abacus) then this dependency is already installed.
+> When running the packaged binary on Windows, [Visual C++ Redistributable](https://aka.ms/vc14/vc_redist.x64.exe) must be installed. If you're using [Abacus](https://github.com/kiesraad/abacus), you already have this dependency.
 
 ## How to use
 ### Drag and drop

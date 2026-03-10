@@ -325,7 +325,8 @@ def _get_candidate_info(candidates_eml: XmlElement):
         if aff_identifier is None:
             raise ValueError("Affiliation without identifier in candidate list!")
         aff_identifier_id = _get_mandatory_attrib(aff_identifier, "Id")
-        name = _get_mandatory_text(aff_identifier.find("./eml:RegisteredName", namespaces=NS))
+        name = _get_text(aff_identifier.find("./eml:RegisteredName", namespaces=NS))
+        name = "" if name is None else name
         aff_key = _AffiliationIdentifier(aff_identifier_id, name)
 
         for cand in aff.findall("./eml:Candidate", namespaces=NS):

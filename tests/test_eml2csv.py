@@ -33,6 +33,18 @@ def test_gr22_output_csv_matches_oracle_file(tmp_path):
         assert actual.readlines() == expected.readlines(), f"Output file differences: {tmp_path / output_csv}"
 
 
+def test_gr22_blank_list_output_csv_matches_oracle_file(tmp_path):
+    output_csv = "osv4-3_telling_gr2022_groningen.csv"
+    eml2csv(
+        counts_eml_path="tests/Telling_GR2022_Groningen.eml.xml",
+        candidates_eml_path="tests/Kandidatenlijsten_GR2022_Groningen.eml.xml",
+        output_csv_path=str(tmp_path / output_csv),
+    )
+
+    with open(tmp_path / output_csv) as actual, open(tests_path / output_csv) as expected:
+        assert actual.readlines() == expected.readlines(), f"Output file differences: {tmp_path / output_csv}"
+
+
 @pytest.fixture
 def change_to_tmp_path(tmp_path):
     # Output csv is written to current directory,
